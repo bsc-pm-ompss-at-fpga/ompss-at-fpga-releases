@@ -1,0 +1,22 @@
++---------------------------------------------------------------------------------+
+|                                                                                 |
+|  .88888.                  .d88b.        .d88888b. 888888888b.  .d888b.       d8 |
+| d8P" "Y8b                 dP  Yb       d8P"  "Y8b 88    88 Y8b d8P Y8b      d88 |
+| 88     88                 Yb.          88  db  88 88    88  88 88   88     dP88 |
+| 88     88 888b.d88. 888b. "Yb.   .d8b  88  88  88 888b  88 d8P 88         dP 88 |
+| 88     88 88 "88 "8b88 "8b  "Yb. 8K    88  88bd8P 88    8888P" 88 8888   dP  88 |
+| 88     88 88  88  8888  88    "8 "Y8b. 88  Y88P"  88    88     88   88  dP   88 |
+| Y8b. .d8P 88  88  8888 d8PYb  dP    X8 Y8b.   .d8 88    88     Y8b d8P d8888888 |
+|  "88888"  88  88  88888P"  "Y8P""888P'  "Y88888P" 88    88     "Y888P"dP     88 |
+|                    88                                                           |
+|                    88                                                           |
+|                    88                                                           |
+|                                                                                 |
+|    - Welcome to the OmpSs@FPGA docker image                                     |
+|    - Mercurium and AIT (formerly autoVivado) tools are available in the PATH    |
+|    - Please, add vivado and vivado_hls in the PATH to make them available       |
+|      for ait                                                                    |
+|                                                                                 |
+|    - Please contact ompss-fpga-support@bsc.es for questions                     |
+|                                                                                 |
++---------------------------------------------------------------------------------+
