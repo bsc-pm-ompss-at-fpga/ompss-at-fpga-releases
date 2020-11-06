@@ -1,3 +1,30 @@
+### Release 2.4.0
+2020-11-06
+
+- Deprecation of stream backend (the support will be removed in next release)
+- Added x86 toolchain installation in Docker image
+- Added support for `nanos_fpga_get_time_cycle` and `nanos_fpga_get_time_us` APIs inside FPGA task accelerators
+- AIT
+  - Version 3.11
+  - Update Vivado version of board templates
+  - Added support for `alveo_u250` board
+  - SOM hardware runtime version 3.3 with extended support for internal task creation
+- xTasks library
+  - Version 9.17
+  - General improvements and minor fixes
+  - Implemented periodic tasks API for qdma devices
+  - Add support for `XTASKS_PCIDEV_ENV` environment variable to select the desired PCI device
+- XDMA library
+  - Version 3.10
+  - Add support for `XDMA_QDMA_DEV` environment variable to select the desired QDMA device
+- OmpSs@FPGA Zynq Kernel Module
+  - Added support for device memory interaction
+  - Added support for write operation in bitinfo/raw device
+
+**Known issues**
+- Vivado crashes when generating a design with DMAs for the Trenz board
+- CommandIn manager only supports tasks with up to 15 arguments despite xTasks supports 30
+
 ### Release 2.3.0
 2020-09-30
 
