@@ -1,7 +1,7 @@
 Docker Image Readme
 ===================
 
-This docker image contains and pre-configured environment to build OmpSs@FPGA applications targeting Xilinx Zynq 7000 and Zynq Ultrascale+ devices and the following architectures:
+This docker image contains and pre-configured environment to build OmpSs@FPGA applications targeting FPGA devices for the following architectures:
  * ARM 32bits (arm-linux-gnueabihf)
  * ARM 64bits (aarch64-linux-gnu)
  * x86_64 (x86_64-linux-gnu)
