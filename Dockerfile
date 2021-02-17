@@ -158,7 +158,7 @@ RUN /bin/bash -c "pushd extrae \
     EXTRAE_HOME=/opt/install-arm/extrae xdma-install xtasks-install nanox-install \
     mcxx-install envscript-install \
  && make mrproper \
- && make PREFIX_TARGET=/opt/install-x86 PREFIX_HOST=/opt/x86_64 \
+ && make PREFIX_TARGET=/opt/install-x86 PREFIX_HOST=/opt/x86_64 PLATFORM=qdma \
     EXTRAE_HOME=/opt/install-x86_64/extrae xdma-install xtasks-install nanox-install \
     mcxx-install envscript-install"
 
