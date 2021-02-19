@@ -1,3 +1,8 @@
+### Release 2.5.1
+2021-02-19
+
+- Fix AIT submodule remote ref
+
 ### Release 2.5.0
 2021-02-19
 

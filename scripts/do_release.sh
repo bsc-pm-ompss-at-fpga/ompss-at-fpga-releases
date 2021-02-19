@@ -19,6 +19,11 @@ pushd `dirname ${BASH_SOURCE[0]}`/../ >/dev/null
   git checkout master
   git submodule init
   git submodule update --remote --checkout --recursive
+  pushd ait
+    #NOTE: The default branch in private AIT repo is master-public instead of master
+    git fetch origin master-public
+    git checkout FETCH_HEAD
+  popd
   ./scripts/commit_release.sh ${VERSION}
   # NOTE: Done at the end of commit_release.sh
   #git credential-cache exit
