@@ -1,3 +1,43 @@
+### Release 2.5.0
+2021-02-19
+
+- New installation structure in /opt/bsc/
+- AIT
+  - Added argument --debug_intfs to automatically generate debug probes
+  - Added argument --interconect_regslice to enable register slices on AXI interconnects
+  - Increased max supported DDR connections
+  - Updated SOM to 3.7
+  - [MEEP] Added support for Alveo U280 board
+  - [EuroEXA] Added support for VU9 testbed 2
+  - [Picos] Added arguments to modify Picos parameters
+  - [Picos] Updated POM to 3.7
+- xTasks
+  - Bump version to 9.20
+  - Support for wrapper version v12
+  - Improve instrumentation event invalidation mechanism
+- mcxx
+  - Changed how intermediate hls files are treated
+    - now they are automatically overwritten
+    - same fashion as usual .o files
+  - Unify input streams of FPGA task accelerators
+  - Add option --variable=fpga_check_limits_memory_port to remove the limit checking during the memport data retrievement
+  - Add option --variable=fpga_unordered_args to remove the switch case that allows handling the arguments out-of-order
+- nanos
+  - Fix taskwait on implementation
+- xdma
+  - Bump version to 3.11
+  - Remove QDMA dependencies
+  - Minor code cleanup and improvements
+- SD image
+  - Fix permissions not being correctly set to the clock and FPGA and clock reconfiguration device files
+  - Fix kernel module not being automatically loaded
+  - Fix fallback FSBL flag file not being removed on sucessful boot
+  - New installation paths
+
+**Known issues**
+- Vivado crashes when generating a design with DMAs for the Trenz board
+- CommandIn manager only supports tasks with up to 15 arguments despite xTasks supports 30
+
 ### Release 2.4.0
 2020-11-06
 
