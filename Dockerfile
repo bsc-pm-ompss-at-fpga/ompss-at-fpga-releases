@@ -2,6 +2,7 @@
 FROM debian:stretch-slim
 #FROM ubuntu:xenial
 MAINTAINER Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)
+ARG BUILD_TAG=unknwn
 
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update \
@@ -68,17 +69,17 @@ RUN /bin/bash -c "wget http://icl.utk.edu/projects/papi/downloads/papi-5.5.1.tar
  && tar -zxf papi-5.5.1.tar.gz \
  && rm papi-5.5.1.tar.gz \
  && pushd papi-5.5.1/src \
- && ./configure --prefix=/opt/install-arm64/papi --host=aarch64-linux-gnu --with-arch=aarch64 \
+ && ./configure --prefix=/opt/bsc/arm64/papi --host=aarch64-linux-gnu --with-arch=aarch64 \
     --with-CPU=arm --with-ffsll --with-walltimer=cycle -with-tls=__thread \
     --with-virtualtimer=perfctr --with-perf-events \
  && make && make install \
  && make distclean \
- && ./configure --prefix=/opt/install-arm/papi --host=arm-linux-gnueabihf --with-arch=arm \
+ && ./configure --prefix=/opt/bsc/arm32/papi --host=arm-linux-gnueabihf --with-arch=arm \
     --with-CPU=arm --with-ffsll --with-walltimer=cycle -with-tls=__thread \
     --with-virtualtimer=perfctr --with-perf-events \
  && make && make install \
  && make distclean \
- && ./configure --prefix=/opt/install-x86_64/papi --with-perf-events \
+ && ./configure --prefix=/opt/bsc/x86_64/papi --with-perf-events \
  && make && make install \
  && popd \
  && rm -r papi-5.5.1 \
@@ -86,23 +87,23 @@ RUN /bin/bash -c "wget http://icl.utk.edu/projects/papi/downloads/papi-5.5.1.tar
  && tar -zxf binutils-2.31.tar.gz \
  && rm binutils-2.31.tar.gz \
  && pushd binutils-2.31 \
- && ./configure --prefix=/opt/install-arm64/binutils --host=aarch64-linux-gnu --enable-shared \
+ && ./configure --prefix=/opt/bsc/arm64/binutils --host=aarch64-linux-gnu --enable-shared \
     --enable-install-libiberty \
- && make tooldir=/opt/install-arm64/binutils && make tooldir=/opt/install-arm64/binutils install \
+ && make tooldir=/opt/bsc/arm64/binutils && make tooldir=/opt/bsc/arm64/binutils install \
  && make distclean \
- && ./configure --prefix=/opt/install-arm/binutils --host=arm-linux-gnueabihf --enable-shared \
+ && ./configure --prefix=/opt/bsc/arm32/binutils --host=arm-linux-gnueabihf --enable-shared \
     --enable-install-libiberty \
- && make tooldir=/opt/install-arm/binutils && make tooldir=/opt/install-arm/binutils install \
+ && make tooldir=/opt/bsc/arm32/binutils && make tooldir=/opt/bsc/arm32/binutils install \
  && popd \
  && rm -r binutils-2.31 \
  && wget https://zlib.net/zlib-1.2.11.tar.gz \
  && tar -zxf zlib-1.2.11.tar.gz \
  && rm zlib-1.2.11.tar.gz \
  && pushd zlib-1.2.11 \
- && CHOST=aarch64-linux-gnu ./configure --prefix=/opt/install-arm64/libz \
+ && CHOST=aarch64-linux-gnu ./configure --prefix=/opt/bsc/arm64/libz \
  && CHOST=aarch64-linux-gnu make install \
  && make distclean \
- && CHOST=arm-linux-gnueabihf ./configure --prefix=/opt/install-arm/libz \
+ && CHOST=arm-linux-gnueabihf ./configure --prefix=/opt/bsc/arm32/libz \
  && CHOST=arm-linux-gnueabihf make install \
  && popd \
  && rm -r zlib-1.2.11 \
@@ -111,19 +112,19 @@ RUN /bin/bash -c "wget http://icl.utk.edu/projects/papi/downloads/papi-5.5.1.tar
  && rm libxml2-v2.9.8.tar.gz \
  && pushd libxml2-v2.9.8 \
  && autoreconf -ifv \
- && ./configure --prefix=/opt/install-arm64/libxml2 --host=aarch64-linux-gnu \
-    --with-zlib=/opt/install-arm64/libz --without-python \
+ && ./configure --prefix=/opt/bsc/arm64/libxml2 --host=aarch64-linux-gnu \
+    --with-zlib=/opt/bsc/arm64/libz --without-python \
  && make install \
  && make distclean \
- && ./configure --prefix=/opt/install-arm/libxml2 --host=arm-linux-gnueabihf \
-    --with-zlib=/opt/install-arm/libz --without-python \
+ && ./configure --prefix=/opt/bsc/arm32/libxml2 --host=arm-linux-gnueabihf \
+    --with-zlib=/opt/bsc/arm32/libz --without-python \
  && make install \
  && popd \
  && rm -r libxml2-v2.9.8 \
  && wget https://ftp.tools.bsc.es/wxparaver/wxparaver-4.7.2-Linux_x86_64.tar.bz2 \
  && tar -xf wxparaver-4.7.2-Linux_x86_64.tar.bz2 \
  && rm wxparaver-4.7.2-Linux_x86_64.tar.bz2 \
- && mv wxparaver-4.7.2-Linux_x86_64 /opt/wxparaver"
+ && mv wxparaver-4.7.2-Linux_x86_64 /opt/bsc/x86_64/wxparaver"
 
 ADD Makefile ./
 ADD ait ./ait
@@ -135,31 +136,31 @@ ADD xdma ./xdma
 ADD xtasks ./xtasks
 RUN /bin/bash -c "pushd extrae \
  && ./bootstrap \
- && ./configure --prefix=/opt/install-arm64/extrae --host=aarch64-linux-gnu --enable-arm64 \
-    --without-mpi --without-unwind --without-dyninst --with-papi=/opt/install-arm64/papi \
-    --with-libz=/opt/install-arm64/libz --with-binutils=/opt/install-arm64/binutils \
-    --with-xml-prefix=/opt/install-arm64/libxml2 \
+ && ./configure --prefix=/opt/bsc/arm64/ompss/${BUILD_TAG}/extrae --host=aarch64-linux-gnu --enable-arm64 \
+    --without-mpi --without-unwind --without-dyninst --with-papi=/opt/bsc/arm64/papi \
+    --with-libz=/opt/bsc/arm64/libz --with-binutils=/opt/bsc/arm64/binutils \
+    --with-xml-prefix=/opt/bsc/arm64/libxml2 \
  && make install \
  && make distclean \
- && ./configure --prefix=/opt/install-arm/extrae --host=arm-linux-gnueabihf --enable-arm \
-    --without-mpi --without-unwind --without-dyninst --with-papi=/opt/install-arm/papi \
-    --with-libz=/opt/install-arm/libz --with-binutils=/opt/install-arm/binutils \
-    --with-xml-prefix=/opt/install-arm/libxml2 \
+ && ./configure --prefix=/opt/bsc/arm32/ompss/${BUILD_TAG}/extrae --host=arm-linux-gnueabihf --enable-arm \
+    --without-mpi --without-unwind --without-dyninst --with-papi=/opt/bsc/arm32/papi \
+    --with-libz=/opt/bsc/arm32/libz --with-binutils=/opt/bsc/arm32/binutils \
+    --with-xml-prefix=/opt/bsc/arm32/libxml2 \
  && make install \
  && make distclean \
- && ./configure --prefix=/opt/install-x86_64/extrae \
-    --without-mpi --without-unwind --without-dyninst --with-papi=/opt/install-x86_64/papi \
+ && ./configure --prefix=/opt/bsc/x86_64/ompss/${BUILD_TAG}/extrae \
+    --without-mpi --without-unwind --without-dyninst --with-papi=/opt/bsc/x86_64/papi \
  && make install \
  && popd \
- && make PREFIX_TARGET=/opt/install-arm64 PREFIX_HOST=/opt/arm64 TARGET=aarch64-linux-gnu \
-    EXTRAE_HOME=/opt/install-arm64/extrae all \
+ && make PREFIX_TARGET=/opt/bsc/arm64/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} TARGET=aarch64-linux-gnu \
+    EXTRAE_HOME=/opt/bsc/arm64/ompss/${BUILD_TAG}/extrae all \
  && make mrproper \
- && make PREFIX_TARGET=/opt/install-arm PREFIX_HOST=/opt/arm TARGET=arm-linux-gnueabihf \
-    EXTRAE_HOME=/opt/install-arm/extrae xdma-install xtasks-install nanox-install \
+ && make PREFIX_TARGET=/opt/bsc/arm32/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} TARGET=arm-linux-gnueabihf \
+    EXTRAE_HOME=/opt/bsc/arm32/ompss/${BUILD_TAG}/extrae xdma-install xtasks-install nanox-install \
     mcxx-install envscript-install \
  && make mrproper \
- && make PREFIX_TARGET=/opt/install-x86 PREFIX_HOST=/opt/x86_64 PLATFORM=qdma \
-    EXTRAE_HOME=/opt/install-x86_64/extrae xdma-install xtasks-install nanox-install \
+ && make PREFIX_TARGET=/opt/bsc/x86_64/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} PLATFORM=qdma \
+    EXTRAE_HOME=/opt/bsc/x86_64/ompss/${BUILD_TAG}/extrae xdma-install xtasks-install nanox-install \
     mcxx-install envscript-install"
 
 RUN cd /bin \
@@ -168,13 +169,12 @@ RUN cd /bin \
  && adduser --disabled-password --gecos '' ompss \
  && adduser ompss sudo \
  && echo 'ompss:ompss' | chpasswd
-ADD ./dockerImageFiles/welcome_ompss_fpga.txt /opt/
+ADD ./dockerImageFiles/welcome_ompss_fpga.txt /opt/bsc/
 WORKDIR /home/ompss/
 USER ompss
 ADD --chown=ompss:ompss ./dockerImageFiles/example ./example/
-RUN ln -s /opt/install-arm64/nanox/share/doc/nanox/paraver_configs/ompss ./example/paraver_configs \
- && echo "source /opt/arm64/environment_ompss_fpga.sh" >>.bashrc \
- && echo "source /opt/arm/environment_ompss_fpga.sh" >>.bashrc \
- && echo "export PATH=\$PATH:/opt/wxparaver/bin" >>.bashrc \
- && echo "cat /opt/welcome_ompss_fpga.txt" >>.bashrc
+RUN ln -s /opt/bsc/x86_64/ompss/${BUILD_TAG}/nanox/share/doc/nanox/paraver_configs/ompss ./example/paraver_configs \
+ && echo "source /opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh" >>.bashrc \
+ && echo "export PATH=\$PATH:/opt/bsc/x86_64/wxparaver/bin" >>.bashrc \
+ && echo "cat /opt/bsc/welcome_ompss_fpga.txt" >>.bashrc
 CMD ["bash"]
