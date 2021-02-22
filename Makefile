@@ -13,7 +13,7 @@ ifndef PLATFORM
 endif
 
 ifndef MCXX_NAME
-	PLATFORM := mcxx
+	MCXX_NAME := mcxx
 endif
 
 ifndef ENVSCRIPT_NAME
