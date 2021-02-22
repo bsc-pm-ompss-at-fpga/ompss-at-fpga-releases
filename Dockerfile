@@ -153,15 +153,18 @@ RUN /bin/bash -c "pushd extrae \
  && make install \
  && popd \
  && make PREFIX_TARGET=/opt/bsc/arm64/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} TARGET=aarch64-linux-gnu \
-    EXTRAE_HOME=/opt/bsc/arm64/ompss/${BUILD_TAG}/extrae all \
+    EXTRAE_HOME=/opt/bsc/arm64/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-arm64 \
+    all \
  && make mrproper \
  && make PREFIX_TARGET=/opt/bsc/arm32/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} TARGET=arm-linux-gnueabihf \
-    EXTRAE_HOME=/opt/bsc/arm32/ompss/${BUILD_TAG}/extrae xdma-install xtasks-install nanox-install \
-    mcxx-install envscript-install \
+    EXTRAE_HOME=/opt/bsc/arm32/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-arm32 \
+    xdma-install xtasks-install nanox-install mcxx-install \
+ && echo export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-arm32/bin >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
  && make mrproper \
  && make PREFIX_TARGET=/opt/bsc/x86_64/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} PLATFORM=qdma \
-    EXTRAE_HOME=/opt/bsc/x86_64/ompss/${BUILD_TAG}/extrae xdma-install xtasks-install nanox-install \
-    mcxx-install envscript-install"
+    EXTRAE_HOME=/opt/bsc/x86_64/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-x86_64 \
+    xdma-install xtasks-install nanox-install mcxx-install \
+ && echo export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-x86_64/bin >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh"
 
 RUN cd /bin \
  && ln -sf /bin/bash sh \

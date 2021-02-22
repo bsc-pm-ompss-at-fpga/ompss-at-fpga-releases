@@ -12,6 +12,14 @@ ifndef PLATFORM
 	PLATFORM := zynq
 endif
 
+ifndef MCXX_NAME
+	PLATFORM := mcxx
+endif
+
+ifndef ENVSCRIPT_NAME
+	ENVSCRIPT_NAME := environment_ompss_fpga.sh
+endif
+
 export CROSS_COMPILE := $(TARGET)-
 
 all: xdma-install xtasks-install nanox-install mcxx-install ait-install envscript-install
@@ -79,7 +87,7 @@ mcxx-config-force: mcxx-bootstrap
 	mkdir -p mcxx-build; \
 	cd mcxx-build; \
 	../mcxx/configure \
-		--prefix=$(PREFIX_HOST)/mcxx \
+		--prefix=$(PREFIX_HOST)/$(MCXX_NAME) \
 		--with-nanox=$(PREFIX_TARGET)/nanox \
 		--target=$(TARGET) \
 		--enable-ompss \
@@ -102,11 +110,11 @@ ait-install:
 
 environment_ompss_fpga.sh:
 	@echo "#!/bin/bash" >environment_ompss_fpga.sh
-	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/mcxx/bin' >>environment_ompss_fpga.sh
+	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/'$(MCXX_NAME)'/bin' >>environment_ompss_fpga.sh
 	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/ait' >>environment_ompss_fpga.sh
 
 envscript-install: environment_ompss_fpga.sh
-	cp -v $^ $(PREFIX_HOST)/
+	cp -v $^ $(PREFIX_HOST)/$(ENVSCRIPT_NAME)
 
 .PHONY: clean mrproper
 
@@ -131,6 +139,8 @@ help:
 	@echo "  PREFIX_TARGET        Installation prefix for the target tools (e.g. nanox, libxdma) [def: /]"
 	@echo "  EXTRAE_HOME          Extrae installation path"
 	@echo "  BUILDCPUS            Number of processes used for building [def: nproc]"
+	@echo "  MCXX_NAME            Mercurium installation path within PREFIX_HOST [def: mcxx]"
+	@echo "  ENVSCRIPT_NAME       Environment script name within PREFIX_HOST [def: environment_ompss_fpga.sh]"
 	@echo "Targets:"
 	@echo "  xdma                 Build xdma library"
 	@echo "  xdma-install         Install xdma library"
@@ -146,3 +156,4 @@ help:
 	@echo "  mcxx-config-force    Force Mercurium configuration"
 	@echo "  mcxx-build           Build Mercurium"
 	@echo "  mcxx-install         Install Mercurium"
+	@echo "  envscript-install    Install environment script"
