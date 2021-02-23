@@ -2,9 +2,10 @@
 FROM debian:stretch-slim
 #FROM ubuntu:xenial
 MAINTAINER Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)
-ARG BUILD_TAG=unknwn
 
+ARG BUILD_TAG=unknwn
 ARG DEBIAN_FRONTEND="noninteractive"
+
 RUN apt-get update \
  && apt-get install -q -y --no-install-recommends \
         autoconf \
@@ -159,16 +160,16 @@ RUN /bin/bash -c "pushd extrae \
  && make PREFIX_TARGET=/opt/bsc/arm32/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} TARGET=arm-linux-gnueabihf \
     EXTRAE_HOME=/opt/bsc/arm32/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-arm32 \
     xdma-install xtasks-install nanox-install mcxx-install \
- && echo export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-arm32/bin >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
  && make mrproper \
  && make PREFIX_TARGET=/opt/bsc/x86_64/ompss/${BUILD_TAG} PREFIX_HOST=/opt/bsc/x86_64/ompss/${BUILD_TAG} PLATFORM=qdma \
     EXTRAE_HOME=/opt/bsc/x86_64/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-x86_64 \
-    xdma-install xtasks-install nanox-install mcxx-install \
- && echo export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-x86_64/bin >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh"
+    xdma-install xtasks-install nanox-install mcxx-install"
 
 RUN cd /bin \
  && ln -sf /bin/bash sh \
  && rm -rf /tmp/work \
+ && echo "export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-arm32/bin" >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
+ && echo "export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-x86_64/bin" >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
  && adduser --disabled-password --gecos '' ompss \
  && adduser ompss sudo \
  && echo 'ompss:ompss' | chpasswd
