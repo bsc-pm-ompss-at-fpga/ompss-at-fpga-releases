@@ -1,5 +1,5 @@
 ### Release 2.5.1
-2021-02-19
+2021-02-23
 
 - Fix AIT submodule remote ref
 - Fix mcxx installation structure in Docker
