@@ -9,6 +9,7 @@
 
 - New installation structure in /opt/bsc/
 - AIT
+  - Version 3.19
   - Added argument --debug_intfs to automatically generate debug probes
   - Added argument --interconect_regslice to enable register slices on AXI interconnects
   - Increased max supported DDR connections
@@ -41,7 +42,6 @@
   - New installation paths
 
 **Known issues**
-- Vivado crashes when generating a design with DMAs for the Trenz board
 - CommandIn manager only supports tasks with up to 15 arguments despite xTasks supports 30
 
 ### Release 2.4.0
@@ -68,7 +68,6 @@
   - Added support for write operation in bitinfo/raw device
 
 **Known issues**
-- Vivado crashes when generating a design with DMAs for the Trenz board
 - CommandIn manager only supports tasks with up to 15 arguments despite xTasks supports 30
 
 ### Release 2.3.0
@@ -91,6 +90,7 @@
   - Experimental support for alveo u200/qdma device
   - Fixes in installation scripts and project name check
   - Generate clock design using a clock wizard
+  - Remove support for trenz board
 - xTasks
   - Fix return value of some APIs
   - Experimental support for alveo u200/qdma device
@@ -122,7 +122,6 @@
   - Fix problem with xdma_cleanup
 
 **Known issues**
-- Vivado crashes when generating a design with DMAs for the Trenz board
 - CommandIn manager only supports tasks with up to 15 arguments despite xTasks supports 30
 
 ### Release 2.2.0
