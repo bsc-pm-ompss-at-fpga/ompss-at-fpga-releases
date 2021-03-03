@@ -3,7 +3,6 @@ FROM debian:stretch-slim
 #FROM ubuntu:xenial
 MAINTAINER Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)
 
-ARG BUILD_TAG=unknwn
 ARG DEBIAN_FRONTEND="noninteractive"
 
 RUN apt-get update \
@@ -126,6 +125,9 @@ RUN /bin/bash -c "wget http://icl.utk.edu/projects/papi/downloads/papi-5.5.1.tar
  && tar -xf wxparaver-4.7.2-Linux_x86_64.tar.bz2 \
  && rm wxparaver-4.7.2-Linux_x86_64.tar.bz2 \
  && mv wxparaver-4.7.2-Linux_x86_64 /opt/bsc/x86_64/wxparaver"
+
+# Declare the ARV here to prevent previous commands to be invalidated in the build cache
+ARG BUILD_TAG=unknwn
 
 ADD Makefile ./
 ADD ait ./ait
