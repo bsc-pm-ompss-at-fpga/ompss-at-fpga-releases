@@ -1,3 +1,9 @@
+### Release 2.5.2
+2021-03-03
+
+- Fix parsing of AIT IP_cache_location argument
+- Add minimum Vivado version check during AIT calls
+
 ### Release 2.5.1
 2021-02-23
 
