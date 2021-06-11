@@ -40,15 +40,21 @@ RUN apt-get update \
         procps \
 # Needed by Petalinux tools
         bc \
+        chrpath \
+        diffstat \
         gawk \
         gnupg \
         gnupg-agent \
         libncurses5-dev \
         libssl1.0-dev \
+        libtool-bin \
+        locales \
         lsb-release \
         net-tools \
         rsync \
+        socat \
         unzip \
+        xterm \
         zlib1g-dev \
 # Extra tools
 	openssh-client \
@@ -62,7 +68,10 @@ RUN apt-get update \
         gfortran-aarch64-linux-gnu \
         crossbuild-essential-armhf \
         gfortran-arm-linux-gnueabihf \
- && apt-get clean
+ && apt-get clean \
+# Setup locales for Petalinux builds
+ && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+ && locale-gen
 
 WORKDIR /tmp/work/
 RUN /bin/bash -c "wget http://icl.utk.edu/projects/papi/downloads/papi-5.5.1.tar.gz \
