@@ -1,3 +1,47 @@
+### Release 3.0.0
+2021-06-14
+
+- Refactor HWR <-> FPGA task accelerators interconnection layout
+- General refactor of HWR internals
+- Install extra packages in docker image needed by new petalinux versions
+- ait
+  - Bump version to 5.0
+  - Updated SOM to v4.5
+  - Added POM v4.7
+  - Removed support for AXI-Stream communication backend
+  - Removed 16 accelerator limit
+  - Removed --interconnect_level argument
+  - Refactored info, warning and error messages
+  - Move default IP cache location to /var/tmp/ait
+  - Several bug fixes and minor improvements
+  - Add option --hwruntime_interconnect to select the communication strategy between HWR <-> FPGA task accelerators
+- xTasks
+  - Bump version to 11.0
+  - Support for wrapper versions 5 to 12 (but requires bitinfo v8)
+  - Removed stream back-ends
+  - Automatically create libxtasks.so link during install
+  - Remove xtasksWaitTask API
+  - Dynamically allocate the communication queues to support N accelerators
+  - Support for bitinfo v8 and parsing non-ASCII xtasks config
+- mcxx
+  - Add fpga -directive- data -pack option to control the placement of DATA-PACK directive in FPGA wrappers
+  - Update HWR ids according to new FPGA interconnect design
+  - Set default value of fpga -unordered- args to false
+  - Remove accelerator id port from FPGA wrapper
+- nanos
+  - Fix FPGA instrumentation handling when there are multiple point events of key EventsLost
+  - Add a sanity-check in debug mode for reverse offloaded tasks
+- xdma
+  - Bump version to 3.14
+  - Fix offset precision issue when managing large memory regions
+  - Add XDMA-DEV-MEM_SIZE environment variable to define the size of device memory pool
+  - Improve README for qdma and crdb backends
+
+**Known issues**
+
+- [AIT] Generation of boot files fails for Petalinux 2018.3
+- HWR only supports tasks with up to 15 arguments despite xTasks supports 30
+
 ### Release 2.5.2
 2021-03-03
 
