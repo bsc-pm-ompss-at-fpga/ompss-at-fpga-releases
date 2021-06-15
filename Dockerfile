@@ -41,6 +41,7 @@ RUN apt-get update \
 # Needed by Petalinux tools
         bc \
         chrpath \
+        cpio \
         diffstat \
         gawk \
         gnupg \
@@ -53,6 +54,7 @@ RUN apt-get update \
         net-tools \
         rsync \
         socat \
+        texinfo \
         unzip \
         xterm \
         zlib1g-dev \
@@ -71,7 +73,10 @@ RUN apt-get update \
  && apt-get clean \
 # Setup locales for Petalinux builds
  && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
- && locale-gen
+ && locale-gen \
+ && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
 WORKDIR /tmp/work/
 RUN /bin/bash -c "wget http://icl.utk.edu/projects/papi/downloads/papi-5.5.1.tar.gz \
