@@ -1,3 +1,9 @@
+### Release 3.0.1
+2021-06-18
+
+- Fix compiler error in euroexa crdb xdma backend
+
+
 ### Release 3.0.0
 2021-06-14
 
