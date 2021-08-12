@@ -280,17 +280,17 @@ RUN  make mrproper
 
 
 FROM debian:bullseye
+
+ARG INSTALLATION_PREFIX
 COPY --from=0 $INSTALLATION_PREFIX $INSTALLATION_PREFIX
 LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
 
-ARG INSTALLATION_PREFIX
+ARG BUILD_ONLY
 RUN if [ "$BUILD_ONLY" = "true" ]; \
     then true; \
     else apt update &&  apt install -y  sudo libwxgtk3.0-gtk3-dev build-essential libsqlite3-dev crossbuild-essential-amd64 crossbuild-essential-armhf && rm -rf /var/lib/apt/lists/* && apt clean; \
     fi 
 
- #&& echo "export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-arm32/bin" >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
- #&& echo "export PATH=\$PATH:/opt/bsc/x86_64/ompss/${BUILD_TAG}/mcxx-x86_64/bin" >>/opt/bsc/x86_64/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
 
 RUN  adduser --disabled-password --gecos '' ompss \
  && adduser ompss sudo \
@@ -300,7 +300,10 @@ WORKDIR /home/ompss/
 USER ompss
 ADD --chown=ompss:ompss ./dockerImageFiles/example ./example/
 RUN ln -s $INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/nanox/share/doc/nanox/paraver_configs/ompss ./example/paraver_configs \
- && echo "source $INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/environment_ompss_fpga.sh" >>.bashrc \
  && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/wxparaver/bin" >>.bashrc \
- && echo "cat $INSTALLATION_PREFIX/welcome_ompss_fpga.txt" >>.bashrc
+ && echo "cat $INSTALLATION_PREFIX/welcome_ompss_fpga.txt" >>.bashrc \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-arm32/bin" >>.bashrc \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-arm64/bin" >>.bashrc \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-x86_64/bin" >>.bashrc 
+
 CMD ["bash"]
