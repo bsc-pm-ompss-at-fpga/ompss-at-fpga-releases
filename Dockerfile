@@ -68,7 +68,9 @@ RUN if [ \"`arch`\" = \"aarch64\" ] || [ \"`arch`\" = \"arm64\" ] ; then  \
         g++-multilib-x86-64-linux-gnu \
         gcc-multilib-x86-64-linux-gnu ; \
     elif [ \"`arch`\" = \"x86_64\" ]; then \
-        false; \
+        dpkg --add-architecture arm64 && apt-get update  && apt-get install -y \
+        crossbuild-essential-arm64 \
+        gfortran-aarch64-linux-gnu; \
     else \
         false; \
     fi; 
