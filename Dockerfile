@@ -2,9 +2,10 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ARG INSTALLATION_PREFIX=/opt/bsc
 ARG BUILD_ONLY
 
-FROM debian:bullseye
-LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
+FROM debian:bullseye AS base
 ARG INSTALLATION_PREFIX
+LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
+#ARG INSTALLATION_PREFIX
 RUN  apt update && apt install -y autoconf \
         automake \
         binutils-dev \
@@ -87,6 +88,10 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
  && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
+
+FROM base as installed_pkg
+FROM installed_pkg as build
+ARG INSTALLATION_PREFIX
 
 WORKDIR /tmp/work/
 
@@ -281,10 +286,11 @@ RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm32/ompss/${BUILD_TAG} PREFIX_H
 RUN  make mrproper 
 
 
-FROM debian:bullseye
+FROM installed_pkg AS dist_img
+ARG INSTALLATION_PREFIX
 
 ARG INSTALLATION_PREFIX
-COPY --from=0 $INSTALLATION_PREFIX $INSTALLATION_PREFIX
+COPY --from=build $INSTALLATION_PREFIX $INSTALLATION_PREFIX
 LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
 
 ARG BUILD_ONLY
