@@ -268,18 +268,19 @@ ENV LDFLAGS=
 WORKDIR /tmp/work
 
 #X86_64
-RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/x86_64/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=x86_64-linux-gnu PLATFORM=qdma \
+RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/x86_64/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=$(test $(arch) != x86_64 && echo x86_64-linux-gnu) PLATFORM=qdma \
     EXTRAE_HOME=$INSTALLATION_PREFIX/x86_64/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-x86_64 \
     xdma-install xtasks-install nanox-install mcxx-install
 RUN  make mrproper 
 
 #ARM64
-RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm64/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=aarch64-linux-gnu \
+RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm64/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=$(test $(arch) != aarch64 && echo aarch64-linux-gnu) \
     EXTRAE_HOME=$INSTALLATION_PREFIX/arm64/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-arm64 \
     all 
 RUN make mrproper 
 
 #ARM32
+#Assuming noone will compile from an arm32 platform => always setting TARGET
 RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm32/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=arm-linux-gnueabihf \
     EXTRAE_HOME=$INSTALLATION_PREFIX/arm32/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-arm32 \
     xdma-install xtasks-install nanox-install mcxx-install 
