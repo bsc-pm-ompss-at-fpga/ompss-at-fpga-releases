@@ -1,9 +1,11 @@
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG INSTALLATION_PREFIX=/opt/bsc
 ARG BUILD_ONLY
+ARG BUILD_TAG
 
 FROM debian:bullseye AS base
 ARG INSTALLATION_PREFIX
+ARG BUILD_TAG
 LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
 #ARG INSTALLATION_PREFIX
 RUN  apt update && apt install -y autoconf \
@@ -92,6 +94,7 @@ ENV LC_ALL en_US.UTF-8
 FROM base as installed_pkg
 FROM installed_pkg as build
 ARG INSTALLATION_PREFIX
+ARG BUILD_TAG
 
 WORKDIR /tmp/work/
 
@@ -289,6 +292,7 @@ RUN  make mrproper
 
 FROM installed_pkg AS dist_img
 ARG INSTALLATION_PREFIX
+ARG BUILD_TAG
 
 ARG INSTALLATION_PREFIX
 COPY --from=build $INSTALLATION_PREFIX $INSTALLATION_PREFIX
