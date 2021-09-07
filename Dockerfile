@@ -103,10 +103,10 @@ ENV CFLAGS=-Wno-format-truncation
 ENV CXXFLAGS=-Wno-format-truncation 
 
 
-RUN wget http://icl.utk.edu/projects/papi/downloads/papi-5.5.1.tar.gz && tar -zxf papi-5.5.1.tar.gz  && rm papi-5.5.1.tar.gz 
+RUN wget http://icl.utk.edu/projects/papi/downloads/papi-6.0.0.tar.gz && tar -zxf papi-6.0.0.tar.gz  && rm papi-6.0.0.tar.gz
 
 
-WORKDIR /tmp/work/papi-5.5.1/src
+WORKDIR /tmp/work/papi-6.0.0/src
 
 #ARM64
 RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/papi --host=aarch64-linux-gnu --with-arch=aarch64 \
@@ -136,10 +136,10 @@ RUN make distclean
 
 WORKDIR /tmp/work/
 
-RUN wget https://ftp.gnu.org/gnu/binutils/binutils-2.31.tar.gz \
- && tar -zxf binutils-2.31.tar.gz \
- && rm binutils-2.31.tar.gz 
-WORKDIR /tmp/work/binutils-2.31 
+RUN wget https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.gz \
+ && tar -zxf binutils-2.37.tar.gz \
+ && rm binutils-2.37.tar.gz
+WORKDIR /tmp/work/binutils-2.37
  
 #ARM64
 RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/binutils --host=aarch64-linux-gnu --enable-shared \
@@ -160,7 +160,7 @@ RUN ./configure --prefix=$INSTALLATION_PREFIX/x86_64/binutils --host=x86_64-linu
 #ZLIB
 WORKDIR /tmp/work/
 
-RUN  wget https://zlib.net/zlib-1.2.11.tar.gz  && tar -zxf zlib-1.2.11.tar.gz  && rm zlib-1.2.11.tar.gz 
+RUN  wget https://zlib.net/zlib-1.2.11.tar.gz  && tar -zxf zlib-1.2.11.tar.gz  && rm zlib-1.2.11.tar.gz
 
 WORKDIR /tmp/work/zlib-1.2.11
 
@@ -176,11 +176,11 @@ RUN CHOST=x86_64-linux-gnu  ./configure --prefix=$INSTALLATION_PREFIX/x86_64/lib
 
 #LIBXML2
 WORKDIR /tmp/work/
-RUN wget https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.8/libxml2-v2.9.8.tar.gz \
- && tar -zxf libxml2-v2.9.8.tar.gz \
- && rm libxml2-v2.9.8.tar.gz 
+RUN wget ftp://xmlsoft.org/libxml2/libxml2-2.9.12.tar.gz \
+ && tar -zxf libxml2-2.9.12.tar.gz \
+ && rm libxml2-2.9.12.tar.gz
 
-WORKDIR /tmp/work/libxml2-v2.9.8 
+WORKDIR /tmp/work/libxml2-2.9.12
 
 RUN autoreconf -ifv 
 
