@@ -1,3 +1,35 @@
+### Release (3.1.0)
+2021-05-07
+
+- ait
+  - Bump version to 5.3
+  - Fix boot step for petalinux 2018.3
+  - BitInfo BRAM is now writeable
+  - Parse accelerator information from JSON file
+  - [EuroEXA] Add support for CRDB using maxilink communications
+- mcxx
+  - Allow variables on num_instances pragma. Value must be known at compile time
+  - Store accelerator information in JSON file
+- xdma
+  - Bump version to 3.16
+- xtasks
+  - Bump version to 11.1
+  - Fix cross compiling to x86-64
+- Docker image
+  - Upgrade docker base image to debian 11 bullseye
+  - Update docker image libraries (libxml, papi, binutils)
+  - Fix building x86-64 as a cross compiler
+  - Implement multistage docker image building
+- Extrae
+  - Upgrade to 3.8.3
+- Kernel module
+  - Fix CDMA transfers when the end of the buffer was aligned to a page
+
+**Known issues**
+
+- HWR only supports tasks with up to 15 arguments despite xTasks supports 30
+
+
 ### Release 3.0.1
 2021-06-18
 
