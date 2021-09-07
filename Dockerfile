@@ -179,11 +179,11 @@ RUN CHOST=x86_64-linux-gnu  ./configure --prefix=$INSTALLATION_PREFIX/x86_64/lib
 
 #LIBXML2
 WORKDIR /tmp/work/
-RUN wget ftp://xmlsoft.org/libxml2/libxml2-2.9.12.tar.gz \
- && tar -zxf libxml2-2.9.12.tar.gz \
- && rm libxml2-2.9.12.tar.gz
+RUN wget https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.12/libxml2-v2.9.12.tar.gz \
+ && tar -zxf libxml2-v2.9.12.tar.gz \
+ && rm libxml2-v2.9.12.tar.gz
 
-WORKDIR /tmp/work/libxml2-2.9.12
+WORKDIR /tmp/work/libxml2-v2.9.12
 
 RUN autoreconf -ifv 
 
