@@ -21,6 +21,7 @@
   - Fix building x86-64 as a cross compiler
   - Implement multistage docker image building
   - Pull libxml though http instead of ftp
+  - Fix environment file
 - Extrae
   - Upgrade to 3.8.3
 - Kernel module
