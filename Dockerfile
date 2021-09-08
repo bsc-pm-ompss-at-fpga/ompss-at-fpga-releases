@@ -307,7 +307,9 @@ RUN if [ "$BUILD_ONLY" = "true" ]; \
 
 RUN  adduser --disabled-password --gecos '' ompss \
  && adduser ompss sudo \
- && echo 'ompss:ompss' | chpasswd
+ && echo 'ompss:ompss' | chpasswd \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-arm32/bin" >>$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-x86_64/bin" >>$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/environment_ompss_fpga.sh
 ADD ./dockerImageFiles/welcome_ompss_fpga.txt $INSTALLATION_PREFIX
 WORKDIR /home/ompss/
 USER ompss
