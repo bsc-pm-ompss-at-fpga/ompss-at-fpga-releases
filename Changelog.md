@@ -1,3 +1,20 @@
+### Release (3.2.0)
+2021-12-22
+
+- mcxx
+  - Changed accelerator HLS source file name
+  - Refactor accelerator json info file
+
+- ait
+  - Bump version to 5.8
+  - Implement interleaved memory access
+  - Simplified DDR interconnection
+  - Accelerator floorplanning
+
+**Known issues**
+
+- HWR only supports tasks with up to 15 arguments despite xTasks supports 30
+
 ### Release (3.1.0)
 2021-09-22
 
