@@ -19,3 +19,4 @@
 [submodule "ait"]
 	path = ait
 	url = ../ait.git
+    branch = master-public
