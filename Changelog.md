@@ -10,6 +10,7 @@
   - Implement interleaved memory access
   - Simplified DDR interconnection
   - Accelerator floorplanning
+  - Change clock source from DDR0 to QDMA in alveo devices
 
 **Known issues**
 
