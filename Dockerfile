@@ -1,11 +1,11 @@
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG INSTALLATION_PREFIX=/opt/bsc
 ARG BUILD_ONLY
-ARG BUILD_TAG
+ARG RELEASE_TAG
 
 FROM debian:bullseye AS base
 ARG INSTALLATION_PREFIX
-ARG BUILD_TAG
+ARG RELEASE_TAG
 LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
 #ARG INSTALLATION_PREFIX
 RUN  apt update && apt install -y autoconf \
@@ -94,7 +94,7 @@ ENV LC_ALL en_US.UTF-8
 FROM base as installed_pkg
 FROM installed_pkg as build
 ARG INSTALLATION_PREFIX
-ARG BUILD_TAG
+ARG RELEASE_TAG
 
 WORKDIR /tmp/work/
 
@@ -244,21 +244,21 @@ ENV LDFLAGS=-lpthread
 RUN ./bootstrap 
 
 #ARM64
-RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/ompss/${BUILD_TAG}/extrae --host=aarch64-linux-gnu --enable-arm64 \
+RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/ompss/${RELEASE_TAG}/extrae --host=aarch64-linux-gnu --enable-arm64 \
     --without-mpi --without-unwind --without-dyninst --with-papi=$INSTALLATION_PREFIX/arm64/papi \
     --with-libz=$INSTALLATION_PREFIX/arm64/libz --with-binutils=$INSTALLATION_PREFIX/arm64/binutils \
     --with-xml-prefix=$INSTALLATION_PREFIX/arm64/libxml2 
 RUN make -j && make install && make distclean
 
 #ARM32
-RUN ./configure --prefix=$INSTALLATION_PREFIX/arm32/ompss/${BUILD_TAG}/extrae --host=arm-linux-gnueabihf --enable-arm \
+RUN ./configure --prefix=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG}/extrae --host=arm-linux-gnueabihf --enable-arm \
     --without-mpi --without-unwind --without-dyninst --with-papi=$INSTALLATION_PREFIX/arm32/papi \
     --with-libz=$INSTALLATION_PREFIX/arm32/libz --with-binutils=$INSTALLATION_PREFIX/arm32/binutils \
     --with-xml-prefix=$INSTALLATION_PREFIX/arm32/libxml2
 RUN make -j && make install && make distclean
 
 #X86_64
-RUN ./configure --prefix=$INSTALLATION_PREFIX/x86_64/ompss/${BUILD_TAG}/extrae --host=x86_64-linux-gnu --enable-amd64 \
+RUN ./configure --prefix=$INSTALLATION_PREFIX/x86_64/ompss/${RELEASE_TAG}/extrae --host=x86_64-linux-gnu --enable-amd64 \
     --without-mpi --without-unwind --without-dyninst --with-papi=$INSTALLATION_PREFIX/x86_64/papi \
     --with-libz=$INSTALLATION_PREFIX/x86_64/libz --with-binutils=$INSTALLATION_PREFIX/x86_64/binutils \
     --with-xml-prefix=$INSTALLATION_PREFIX/x86_64/libxml2
@@ -271,28 +271,28 @@ ENV LDFLAGS=
 WORKDIR /tmp/work
 
 #X86_64
-RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/x86_64/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=$(test $(arch) != x86_64 && echo x86_64-linux-gnu) PLATFORM=qdma \
-    EXTRAE_HOME=$INSTALLATION_PREFIX/x86_64/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-x86_64 \
+RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/x86_64/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=$(test $(arch) != x86_64 && echo x86_64-linux-gnu) PLATFORM=qdma \
+    EXTRAE_HOME=$INSTALLATION_PREFIX/x86_64/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-x86_64 \
     xdma-install xtasks-install nanox-install mcxx-install
 RUN  make mrproper 
 
 #ARM64
-RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm64/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=$(test $(arch) != aarch64 && echo aarch64-linux-gnu) \
-    EXTRAE_HOME=$INSTALLATION_PREFIX/arm64/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-arm64 \
+RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm64/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=$(test $(arch) != aarch64 && echo aarch64-linux-gnu) \
+    EXTRAE_HOME=$INSTALLATION_PREFIX/arm64/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-arm64 \
     all 
 RUN make mrproper 
 
 #ARM32
 #Assuming noone will compile from an arm32 platform => always setting TARGET
-RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm32/ompss/${BUILD_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG} TARGET=arm-linux-gnueabihf \
-    EXTRAE_HOME=$INSTALLATION_PREFIX/arm32/ompss/${BUILD_TAG}/extrae MCXX_NAME=mcxx-arm32 \
+RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=arm-linux-gnueabihf \
+    EXTRAE_HOME=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-arm32 \
     xdma-install xtasks-install nanox-install mcxx-install 
 RUN  make mrproper 
 
 
 FROM installed_pkg AS dist_img
 ARG INSTALLATION_PREFIX
-ARG BUILD_TAG
+ARG RELEASE_TAG
 
 ARG INSTALLATION_PREFIX
 COPY --from=build $INSTALLATION_PREFIX $INSTALLATION_PREFIX
@@ -308,18 +308,18 @@ RUN if [ "$BUILD_ONLY" = "true" ]; \
 RUN  adduser --disabled-password --gecos '' ompss \
  && adduser ompss sudo \
  && echo 'ompss:ompss' | chpasswd \
- && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-arm32/bin" >>$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/environment_ompss_fpga.sh \
- && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-x86_64/bin" >>$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/environment_ompss_fpga.sh
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/mcxx-arm32/bin" >>$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/environment_ompss_fpga.sh \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/mcxx-x86_64/bin" >>$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/environment_ompss_fpga.sh
 ADD ./dockerImageFiles/welcome_ompss_fpga.txt $INSTALLATION_PREFIX
 WORKDIR /home/ompss/
 USER ompss
 ADD --chown=ompss:ompss ./dockerImageFiles/example ./example/
-RUN ln -s $INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/nanox/share/doc/nanox/paraver_configs/ompss ./example/paraver_configs \
+RUN ln -s $INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/nanox/share/doc/nanox/paraver_configs/ompss ./example/paraver_configs \
  && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/wxparaver/bin" >>.bashrc \
  && echo "cat $INSTALLATION_PREFIX/welcome_ompss_fpga.txt" >>.bashrc \
- && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-arm32/bin" >>.bashrc \
- && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-arm64/bin" >>.bashrc \
- && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/mcxx-x86_64/bin" >>.bashrc  \
- && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${BUILD_TAG}/ait" >>.bashrc
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/mcxx-arm32/bin" >>.bashrc \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/mcxx-arm64/bin" >>.bashrc \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/mcxx-x86_64/bin" >>.bashrc  \
+ && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/ait" >>.bashrc
 
 CMD ["bash"]
