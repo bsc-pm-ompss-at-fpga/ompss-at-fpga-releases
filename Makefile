@@ -12,6 +12,14 @@ ifndef PLATFORM
 	PLATFORM := zynq
 endif
 
+ifndef XDMA_PLATFORM
+	XDMA_PLATFORM := $(PLATFORM)
+endif
+
+ifndef XTASKS_PLATFORM
+	XTASKS_PLATFORM := $(PLATFORM)
+endif
+
 ifndef MCXX_NAME
 	MCXX_NAME := mcxx
 endif
@@ -27,16 +35,16 @@ all: xdma-install xtasks-install nanox-install mcxx-install ait-install envscrip
 .PHONY: xdma xdma-install xtasks xtasks-install
 
 xdma:
-	$(MAKE) -C xdma/src/$(PLATFORM) KERNEL_MODULE_DIR=$(PWD)/ompss-at-fpga-kernel-module
+	$(MAKE) -C xdma/src/$(XDMA_PLATFORM) KERNEL_MODULE_DIR=$(PWD)/ompss-at-fpga-kernel-module
 
 xdma-install: xdma
-	$(MAKE) -C xdma/src/$(PLATFORM) install PREFIX=$(PREFIX_TARGET)/libxdma
+	$(MAKE) -C xdma/src/$(XDMA_PLATFORM) install PREFIX=$(PREFIX_TARGET)/libxdma
 
 xtasks: xdma-install
-	$(MAKE) -C xtasks/src/$(PLATFORM) LIBXDMA_DIR=$(PREFIX_TARGET)/libxdma
+	$(MAKE) -C xtasks/src/$(XTASKS_PLATFORM) LIBXDMA_DIR=$(PREFIX_TARGET)/libxdma
 
 xtasks-install: xtasks
-	$(MAKE) -C xtasks/src/$(PLATFORM) install PREFIX=$(PREFIX_TARGET)/libxtasks
+	$(MAKE) -C xtasks/src/$(XTASKS_PLATFORM) install PREFIX=$(PREFIX_TARGET)/libxtasks
 	pushd $(PREFIX_TARGET)/libxtasks/lib; \
 		ln -s libxtasks-hwruntime.so libxtasks.so; popd;
 
@@ -134,7 +142,9 @@ mrproper: clean
 help:
 	@echo "Environment variables:"
 	@echo "  TARGET               Linux architecture that toolchain will target [def: native]"
-	@echo "  PLATFORM             Board platform that xtasks and xdma backends will target (e.g. zynq, alpha_data) [def: zynq]"
+	@echo "  PLATFORM             Fallback board platform that xtasks and xdma backends will target if no specific one has been defined (e.g. zynq, qdma) [def: zynq]"
+	@echo "  XDMA_PLATFORM        Board platform that xtasks and xdma backends will target (e.g. zynq, qdma) [def: PLATFORM]"
+	@echo "  XTASKS_PLATFORM      Board platform that xtasks backend will target (e.g. zynq, qdma, euroexa_testbed2) [def: PLATFORM]"
 	@echo "  PREFIX_HOST          Installation prefix for the host tools (e.g. mcxx, ait) [def: /]"
 	@echo "  PREFIX_TARGET        Installation prefix for the target tools (e.g. nanox, libxdma) [def: /]"
 	@echo "  EXTRAE_HOME          Extrae installation path"
