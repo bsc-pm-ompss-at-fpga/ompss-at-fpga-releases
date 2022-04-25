@@ -3,7 +3,7 @@ ARG INSTALLATION_PREFIX=/opt/bsc
 ARG BUILD_ONLY
 ARG RELEASE_TAG
 
-FROM debian:bullseye AS base
+FROM ubuntu:18.04 AS base
 ARG INSTALLATION_PREFIX
 ARG RELEASE_TAG
 LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
@@ -61,6 +61,13 @@ RUN  apt update && apt install -y autoconf \
 # Extra tools
 	openssh-client 
 
+# Install and configure tzdata
+RUN export DEBIAN_FRONTEND=noninteractive; \
+    export DEBCONF_NONINTERACTIVE_SEEN=true; \
+    echo 'tzdata tzdata/Areas select Etc' | debconf-set-selections; \
+    echo 'tzdata tzdata/Zones/Etc select UTC' | debconf-set-selections; \
+    apt-get install --no-install-recommends tzdata
+
 
 #if is arm64
 
@@ -71,7 +78,7 @@ RUN if [ \"`arch`\" = \"aarch64\" ] || [ \"`arch`\" = \"arm64\" ] ; then  \
         g++-multilib-x86-64-linux-gnu \
         gcc-multilib-x86-64-linux-gnu ; \
     elif [ \"`arch`\" = \"x86_64\" ]; then \
-        dpkg --add-architecture arm64 && apt-get update  && apt-get install -y \
+        apt-get install -y \
         crossbuild-essential-arm64 \
         gfortran-aarch64-linux-gnu; \
     else \
@@ -79,7 +86,6 @@ RUN if [ \"`arch`\" = \"aarch64\" ] || [ \"`arch`\" = \"arm64\" ] ; then  \
     fi; 
 
 
-RUN dpkg --add-architecture armhf
 RUN apt-get update \
  && apt-get install -y -q \
         crossbuild-essential-armhf \
@@ -267,6 +273,7 @@ RUN make -j && make install && make distclean
 ENV CFLAGS=
 ENV CXXFLAGS=
 ENV LDFLAGS=
+
 #INSTALL TOOLCHAIN
 WORKDIR /tmp/work
 
@@ -301,8 +308,11 @@ LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.
 ARG BUILD_ONLY
 RUN if [ "$BUILD_ONLY" = "true" ]; \
     then true; \
-    else apt update &&  apt install -y  sudo libwxgtk3.0-gtk3-dev build-essential libsqlite3-dev crossbuild-essential-amd64 crossbuild-essential-armhf && rm -rf /var/lib/apt/lists/* && apt clean; \
-    fi 
+    else apt update &&  apt install -y  sudo libwxgtk3.0-gtk3-dev build-essential libsqlite3-dev crossbuild-essential-armhf && rm -rf /var/lib/apt/lists/* && apt clean; \
+        if [ \"`arch`\" = \"aarch64\" ] || [ \"`arch`\" = \"arm64\" ]; then  \
+            apt install crossbuild-essential-amd64; \
+        fi; \
+    fi
 
 
 RUN  adduser --disabled-password --gecos '' ompss \
