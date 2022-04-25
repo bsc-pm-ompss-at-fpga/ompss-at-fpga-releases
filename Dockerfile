@@ -169,9 +169,9 @@ RUN ./configure --prefix=$INSTALLATION_PREFIX/x86_64/binutils --host=x86_64-linu
 #ZLIB
 WORKDIR /tmp/work/
 
-RUN  wget https://zlib.net/zlib-1.2.11.tar.gz  && tar -zxf zlib-1.2.11.tar.gz  && rm zlib-1.2.11.tar.gz
+RUN  wget https://zlib.net/zlib-1.2.12.tar.gz  && tar -zxf zlib-1.2.12.tar.gz  && rm zlib-1.2.12.tar.gz
 
-WORKDIR /tmp/work/zlib-1.2.11
+WORKDIR /tmp/work/zlib-1.2.12
 
 #ARM64
 RUN CHOST=aarch64-linux-gnu ./configure --prefix=$INSTALLATION_PREFIX/arm64/libz  && CHOST=aarch64-linux-gnu make install  && make distclean
