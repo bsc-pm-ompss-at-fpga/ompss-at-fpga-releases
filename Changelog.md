@@ -1,3 +1,44 @@
+### Release (3.3.0)
+2022-04-27
+
+- ait
+  - Bump version to 5.17
+  - Updated bitInfo to v9
+  - Added `--disable_spawn_queues` argument to disable the instantiation of HWR spawn queues
+  - Added `--bitinfo_note` argument to add a user-defined note to the bitInfo
+  - Enabled over temperature automatic shutdown on all boards
+  - Enabled bitstream compression
+  - Set randomly generated BITSTREAM_USERID on compilation time to identify bitstream files
+  - Generate .bit.bin file for Zynq7000 boards when possible
+  - Fixed ZCU102 DDR DIMM configuration problem
+  - Default number of Vivado jobs now depends on node's current free memory
+  - Time is now formatted as human-readable
+  - Improved error and information messages
+  - Several bug fixes
+- mcxx
+  - Fix wideport memcpy functions on C code
+- nanox
+  - Modified FPGA lost events warning message
+  - Added new paraver configs to generate histograms of FPGA events
+  - General spell-checking
+- xtasks
+  - Bump version to 13.0
+  - Dropped support for already deprecated alpha_data board
+  - Updated bitInfo v9 device paths
+- xdma
+  - Bump version to 3.17
+  - Fixed copies larger than 2GB
+  - Correctly handle no DMA device operations available
+- Kernel module
+  - Updated module for kernel >5.xx
+  - Dropped support for DMA devices on kernel >5.xx
+  - Added devices to read new fields introduced in bitInfo v9
+
+**Known issues**
+
+- HWR only supports tasks with up to 15 arguments despite xTasks supports 30
+
+
 ### Release (3.2.0)
 2021-12-22
 
