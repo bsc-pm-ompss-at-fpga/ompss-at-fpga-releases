@@ -6,7 +6,7 @@ ARG RELEASE_TAG
 FROM ubuntu:18.04 AS base
 ARG INSTALLATION_PREFIX
 ARG RELEASE_TAG
-LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
+LABEL AUTHOR="Programming Models Group at BSC <ompss-fpga-support@bsc.es> (https://pm.bsc.es/ompss-at-fpga)"
 #ARG INSTALLATION_PREFIX
 RUN  apt update && apt install -y autoconf \
         automake \
@@ -59,7 +59,7 @@ RUN  apt update && apt install -y autoconf \
         xterm \
         zlib1g-dev \
 # Extra tools
-	openssh-client 
+	openssh-client
 
 # Install and configure tzdata
 RUN export DEBIAN_FRONTEND=noninteractive; \
@@ -83,7 +83,7 @@ RUN if [ \"`arch`\" = \"aarch64\" ] || [ \"`arch`\" = \"arm64\" ] ; then  \
         gfortran-aarch64-linux-gnu; \
     else \
         false; \
-    fi; 
+    fi;
 
 
 RUN apt-get update \
@@ -108,8 +108,8 @@ WORKDIR /tmp/work/
 
 #INSTALL PAPI
 
-ENV CFLAGS=-Wno-format-truncation 
-ENV CXXFLAGS=-Wno-format-truncation 
+ENV CFLAGS=-Wno-format-truncation
+ENV CXXFLAGS=-Wno-format-truncation
 
 
 RUN wget http://icl.utk.edu/projects/papi/downloads/papi-6.0.0.tar.gz && tar -zxf papi-6.0.0.tar.gz  && rm papi-6.0.0.tar.gz
@@ -121,14 +121,14 @@ WORKDIR /tmp/work/papi-6.0.0/src
 RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/papi --host=aarch64-linux-gnu --with-arch=aarch64 \
     --with-CPU=arm --with-ffsll --with-walltimer=cycle -with-tls=__thread \
     --with-virtualtimer=perfctr --with-perf-events --with-tests=""
-RUN make -j && make install 
+RUN make -j && make install
 RUN make distclean
 
 #ARM32
 RUN ./configure --prefix=$INSTALLATION_PREFIX/arm32/papi --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf   --with-arch=arm \
     --with-CPU=arm --with-ffsll --with-walltimer=cycle -with-tls=__thread \
     --with-virtualtimer=perfctr --with-perf-events --with-tests=""
-RUN make -j && make install 
+RUN make -j && make install
 RUN make distclean
 
 
@@ -149,7 +149,7 @@ RUN wget https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.gz \
  && tar -zxf binutils-2.37.tar.gz \
  && rm binutils-2.37.tar.gz
 WORKDIR /tmp/work/binutils-2.37
- 
+
 #ARM64
 RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/binutils --host=aarch64-linux-gnu --enable-shared \
     --enable-install-libiberty \
@@ -191,10 +191,10 @@ RUN wget https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.12/libxml2-v2.9.1
 
 WORKDIR /tmp/work/libxml2-v2.9.12
 
-RUN autoreconf -ifv 
+RUN autoreconf -ifv
 
 #ARM64
-RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/libxml2 --host=aarch64-linux-gnu  --with-zlib=$INSTALLATION_PREFIX/arm64/libz --without-python \ 
+RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/libxml2 --host=aarch64-linux-gnu  --with-zlib=$INSTALLATION_PREFIX/arm64/libz --without-python \
  && make install && make distclean
 
 #ARM32
@@ -213,8 +213,8 @@ RUN git clone https://github.com/bsc-performance-tools/paraver-kernel
 WORKDIR /tmp/work/paraver-kernel
 RUN ./bootstrap
 
-RUN ./configure --with-boost-libdir=/usr/lib/$(gcc -dumpmachine)  --prefix=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/paraver --with-xml-prefix=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/libxml2
-RUN make && make install 
+RUN ./configure --with-boost-libdir=/usr/lib/$(gcc -dumpmachine)  --prefix=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/paraver
+RUN make && make install
 
 
 WORKDIR /tmp/work
@@ -223,8 +223,8 @@ RUN git clone  https://github.com/bsc-performance-tools/wxparaver
 
 WORKDIR /tmp/work/wxparaver
 RUN ./bootstrap
-RUN ./configure --with-boost-libdir=/usr/lib/$(gcc -dumpmachine)  --prefix=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/paraver --with-xml-prefix=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/libxml2 
-RUN make && make install 
+RUN ./configure --with-boost-libdir=/usr/lib/$(gcc -dumpmachine)  --prefix=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/paraver
+RUN make && make install
 
 
 WORKDIR /tmp/work/
@@ -244,16 +244,16 @@ ADD xtasks ./xtasks
 WORKDIR /tmp/work/extrae
 
 
-ENV CFLAGS=-lpthread 
-ENV CXXFLAGS=-lpthread 
-ENV LDFLAGS=-lpthread 
-RUN ./bootstrap 
+ENV CFLAGS=-lpthread
+ENV CXXFLAGS=-lpthread
+ENV LDFLAGS=-lpthread
+RUN ./bootstrap
 
 #ARM64
 RUN ./configure --prefix=$INSTALLATION_PREFIX/arm64/ompss/${RELEASE_TAG}/extrae --host=aarch64-linux-gnu --enable-arm64 \
     --without-mpi --without-unwind --without-dyninst --with-papi=$INSTALLATION_PREFIX/arm64/papi \
     --with-libz=$INSTALLATION_PREFIX/arm64/libz --with-binutils=$INSTALLATION_PREFIX/arm64/binutils \
-    --with-xml-prefix=$INSTALLATION_PREFIX/arm64/libxml2 
+    --with-xml-prefix=$INSTALLATION_PREFIX/arm64/libxml2
 RUN make -j && make install && make distclean
 
 #ARM32
@@ -281,20 +281,20 @@ WORKDIR /tmp/work
 RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/x86_64/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=$(test $(arch) != x86_64 && echo x86_64-linux-gnu) PLATFORM=qdma \
     EXTRAE_HOME=$INSTALLATION_PREFIX/x86_64/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-x86_64 \
     xdma-install xtasks-install nanox-install mcxx-install
-RUN  make mrproper 
+RUN  make mrproper
 
 #ARM64
 RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm64/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=$(test $(arch) != aarch64 && echo aarch64-linux-gnu) \
     EXTRAE_HOME=$INSTALLATION_PREFIX/arm64/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-arm64 \
-    all 
-RUN make mrproper 
+    all
+RUN make mrproper
 
 #ARM32
 #Assuming noone will compile from an arm32 platform => always setting TARGET
 RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=arm-linux-gnueabihf \
     EXTRAE_HOME=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-arm32 \
-    xdma-install xtasks-install nanox-install mcxx-install 
-RUN  make mrproper 
+    xdma-install xtasks-install nanox-install mcxx-install
+RUN  make mrproper
 
 
 FROM installed_pkg AS dist_img
@@ -303,7 +303,7 @@ ARG RELEASE_TAG
 
 ARG INSTALLATION_PREFIX
 COPY --from=build $INSTALLATION_PREFIX $INSTALLATION_PREFIX
-LABEL AUTHOR="Programming Models Group at BSC <pm-tools@bsc.es> (https://pm.bsc.es)"
+LABEL AUTHOR="Programming Models Group at BSC <ompss-fpga-support@bsc.es> (https://pm.bsc.es/ompss-at-fpga)"
 
 ARG BUILD_ONLY
 RUN if [ "$BUILD_ONLY" = "true" ]; \
