@@ -13,7 +13,7 @@
 |                    88                                                           |
 |                                                                                 |
 |    - Welcome to the OmpSs@FPGA docker image                                     |
-|    - Mercurium and AIT (formerly autoVivado) tools are available in the PATH    |
+|    - Mercurium and AIT tools are available in the PATH                          |
 |    - Please, add vivado and vivado_hls in the PATH to make them available       |
 |      for ait                                                                    |
 |                                                                                 |

@@ -8,7 +8,7 @@ This docker image contains and pre-configured environment to build OmpSs@FPGA ap
 
 ### Prerequisites
  * Docker
- * Xilinx Vivado (recommended 2017.X or higher)
+ * Xilinx Vivado (recommended 2018.3 or higher)
  * Vivado license for the target device
  * [Optional for BOOT.BIN generation] Petalinux
 
