@@ -59,7 +59,7 @@ bitstream: ./src/$(PROGRAM_).c
 	$(MCC_) $(CFLAGS_) $(MCC_FLAGS_I_) --bitstream-generation $(FPGA_LINKER_FLAGS_) \
 	$^ -o $(PROGRAM_)-i $(LDFLAGS_)
 
-boot:
+boot: ./src/$(PROGRAM_).c
 	mkdir -p ${PWD}/$(BOARD)
 	$(MCC_) $(CFLAGS_) $(MCC_FLAGS_I_) --bitstream-generation $(FPGA_LINKER_FLAGS_) \
 		--Wf,--from_step=boot,--to_step=boot \
