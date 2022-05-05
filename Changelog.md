@@ -1,4 +1,4 @@
-### Release 3.3.0-rc5
+### Release 3.3.0-rc6
 2022-05-05
 
 - ait
@@ -9,9 +9,9 @@
   - Added `euroexa_maxilink` and `euroexa_maxilink_quad` boards
   - Enabled over temperature automatic shutdown on all boards
   - Enabled bitstream compression
-  - Set randomly generated BITSTREAM_USERID on compilation time to identify bitstream files
+  - Set randomly generated `BITSTREAM_USERID` on compilation time to identify bitstream files
   - Generate .bit.bin file for Zynq7000 boards when possible
-  - Fixed ZCU102 DDR DIMM configuration problem
+  - Fixed `zcu102` DDR DIMM configuration problem
   - Default number of Vivado jobs now depends on node's current available memory
   - Time is now formatted as human-readable
   - Improved error and information messages
@@ -24,7 +24,7 @@
   - General spell-checking
 - xtasks
   - Bump version to 13.0
-  - Dropped support for already deprecated alpha_data board
+  - Dropped support for already deprecated `alpha_data` board
   - Updated bitInfo v9 device paths
 - xdma
   - Bump version to 3.17
