@@ -1,5 +1,5 @@
-### Release 3.3.0-rc6
-2022-05-05
+### Release 3.3.0
+2022-05-06
 
 - ait
   - Bump version to 5.19
