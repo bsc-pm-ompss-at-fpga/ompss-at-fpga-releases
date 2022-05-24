@@ -15,12 +15,15 @@ pushd `dirname ${BASH_SOURCE[0]}`/../ >/dev/null
     exit 0
   fi
 
+  #Set user-guide URL
+  sed -i "s/\(user-guide-\)\([0-9]\|[.]\)*\(-rc[0-9]\?\)\?/\1${VERSION}/" README.md
+
   #Enable the cache mode for credentials in metarepository and every submodule
   git config credential.helper cache
   git submodule foreach git config credential.helper cache
 
   #Stash the updated subrepos and commit the changes + create the tag
-  git add ait mcxx nanox ompss-at-fpga-kernel-module xdma xtasks Changelog.md
+  git add ait mcxx nanox ompss-at-fpga-kernel-module xdma xtasks Changelog.md README.md
   git commit -m "OmpSs-at-FPGA release ${VERSION}"
   git tag ${VERSION}
   git push origin master --tags

@@ -7,7 +7,7 @@ This repository uses submodules to link against the different OmpSs@FPGA tools. 
 git clone --recursive https://gitlab.bsc.es/ompss-at-fpga/ompss-at-fpga-releases.git
 ```
 To obtain further information about each tool, visit the README of each tool.
-For general information, visit the [OmpSs@FPGA User Guide](https://pm.bsc.es/ftp/ompss-at-fpga/doc/user-guide/index.html#ompss-fpga-user-guide).
+For general information, visit the [OmpSs@FPGA User Guide](https://pm.bsc.es/ftp/ompss-at-fpga/doc/user-guide-3.3.0/index.html#ompss-fpga-user-guide).
 
 
 ### Build docker image
@@ -19,6 +19,6 @@ docker build --squash -t "ompss_at_fpga:unknwn" --force-rm .
 ```
 
 NOTES:
- - The `--squash` option creates a final image without the intermediate build layers. This creates a smaller but less modular image.  
-   This option requires the `--experimental` option in the docker daemon, see [docker build Reference Manual](https://docs.docker.com/engine/reference/commandline/#squash-an-images-layers---squash-experimental).
+ - The `--squash` option creates a final image without the intermediate build layers. This creates a smaller but less modular image.
+   This option requires the `--experimental` option in the docker daemon, see [docker build Reference Manual](https://docs.docker.com/engine/reference/commandline/build/#squash-an-images-layers---squash-experimental).
  - The `--force-rm` option removes the intermediate layers after build.

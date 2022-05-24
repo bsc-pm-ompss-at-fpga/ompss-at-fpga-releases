@@ -15,6 +15,9 @@ pushd `dirname ${BASH_SOURCE[0]}`/../ >/dev/null
     exit 0
   fi
 
+  #Set user-guide URL
+  sed -i "s/\(user-guide-\)\([0-9]\|[.]\)*\(-rc[0-9]\?\)\?/\1${VERSION}/" README.md
+
   git config credential.helper cache
   git checkout master
   git submodule init
