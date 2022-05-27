@@ -7,7 +7,7 @@ This repository uses submodules to link against the different OmpSs@FPGA tools. 
 git clone --recursive https://gitlab.bsc.es/ompss-at-fpga/ompss-at-fpga-releases.git
 ```
 To obtain further information about each tool, visit the README of each tool.
-For general information, visit the [OmpSs@FPGA User Guide](https://pm.bsc.es/ftp/ompss-at-fpga/doc/user-guide-3.3.1-rc1/index.html#ompss-fpga-user-guide).
+For general information, visit the [OmpSs@FPGA User Guide](https://pm.bsc.es/ftp/ompss-at-fpga/doc/user-guide-3.3.1/index.html#ompss-fpga-user-guide).
 
 
 ### Build docker image

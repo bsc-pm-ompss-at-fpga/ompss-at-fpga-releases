@@ -1,13 +1,16 @@
-### Release 3.3.1-rc1
-2022-05-26
+### Release 3.3.1
+2022-05-27
 
 - ait
-  - Check for invalid stride values when using the memory interleaving feature
+  - Bump version to 5.20
+  - Check for invalid stride values when using memory interleaving feature
   - Compress IPs
   - Fix `euroexa_maxilink` and `euroexa_maxilink_quad` DDR part number
 - xtasks
+  - Bump version to 13.1
   - Fix bus error on arm64 when using qdma backend
 - xdma
+  - Bump version to 3.18
   - Fixed missing return status on qdma backend functions
 
 
