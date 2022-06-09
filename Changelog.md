@@ -204,7 +204,7 @@
 - SD image
   - Fix permissions not being correctly set to the clock and FPGA and clock reconfiguration device files
   - Fix kernel module not being automatically loaded
-  - Fix fallback FSBL flag file not being removed on sucessful boot
+  - Fix fallback FSBL flag file not being removed on successful boot
   - New installation paths
 
 **Known issues**
@@ -266,7 +266,7 @@
 - mcxx
   - Pull upstream repo changes
   - Add compiler option (fpga_unaligned_memory_port) to support unaligned data movements in the FPGA
-  - Add compiler option (fpga_ignore_deps_task_spawn) to ignore task dependences when spawing tasks inside another FPGA task
+  - Add compiler option (fpga_ignore_deps_task_spawn) to ignore task dependences when spawning tasks inside another FPGA task
   - Fix taskwait inside FPGA devices under some circumstances
   - Add support for critical regions inside FPGA task accelerators
   - Add support for usleep calls inside FPGA task accelerators
@@ -297,7 +297,7 @@
   - Ported AIT to Python3. Deprecated support for Python2 execution
   - Added AIT argument to instantiate a hardware counter on the bitstream
   - Added post-implementation resource utilization report
-  - Added post-implementation timming report
+  - Added post-implementation timing report
   - AIT version 2.25
   - Update SOM to version 2.1
   - **Picos** hwruntime is no longer supported
@@ -531,7 +531,7 @@
     - `nanos_err_t nanos_instrument_burst_begin(nanos_event_key_t key, nanos_event_value_t value)`.
     - `nanos_err_t nanos_instrument_burst_end(nanos_event_key_t key, nanos_event_value_t value)`.
     - `nanos_err_t nanos_instrument_point_event(nanos_event_key_t key, nanos_event_value_t value)`.
-  - In the host side the following API may be used to register the keys emited by fpga code:
+  - In the host side the following API may be used to register the keys emitted by fpga code:
     - `nanos_err_t nanos_instrument_register_key_with_key(nanos_event_key_t event_key, const char *key, const char *description, bool abort_when_registered)`.
   - New option in Nanos++ to define the number of fpga events that a task should support:
     - `--fpga-max-instr-events` in `NX_ARGS`.

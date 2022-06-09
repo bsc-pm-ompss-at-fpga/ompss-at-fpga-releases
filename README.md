@@ -12,7 +12,7 @@ For general information, visit the [OmpSs@FPGA User Guide](https://pm.bsc.es/ftp
 
 ### Build docker image
 
-To build the docker image, you just need to recurisvely clone and the repository and recursively checkout the desired version.
+To build the docker image, you just need to recursively clone and the repository and recursively checkout the desired version.
 After that, you might run the following docker command in the root repository directory (to create the `ompss_at_fpga` docker image with the `unknwn` tag):
 ```bash
 docker build --squash -t "ompss_at_fpga:unknwn" --force-rm .

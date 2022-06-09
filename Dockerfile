@@ -290,7 +290,7 @@ RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm64/ompss/${RELEASE_TAG} PREFIX
 RUN make mrproper
 
 #ARM32
-#Assuming noone will compile from an arm32 platform => always setting TARGET
+#Assuming no one will compile from an arm32 platform => always setting TARGET
 RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=arm-linux-gnueabihf \
     EXTRAE_HOME=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-arm32 \
     xdma-install xtasks-install nanox-install mcxx-install
