@@ -2,10 +2,18 @@
 
 This meta-repository contains the official OmpSs@FPGA releases.
 
-This repository uses submodules to link against the different OmpSs@FPGA tools. To download all the submodules when clonning this repository, you might use:
+This repository uses submodules to link against the different OmpSs@FPGA tools. To download all the submodules when cloning this repository, you might use:
+
+* When cloning from GitHub:
+```bash
+    git clone --recursive https://github.com/bsc-pm-ompss-at-fpga/ompss-at-fpga-releases.git
 ```
-git clone --recursive https://gitlab.bsc.es/ompss-at-fpga/ompss-at-fpga-releases.git
+
+* When cloning from our internal GitLab repository (BSC users only):
+```bash
+    git clone --recursive https://gitlab.bsc.es/ompss-at-fpga/ompss-at-fpga-releases.git
 ```
+
 To obtain further information about each tool, visit the README of each tool.
 For general information, visit the [OmpSs@FPGA User Guide](https://pm.bsc.es/ftp/ompss-at-fpga/doc/user-guide-3.3.1/index.html#ompss-fpga-user-guide).
 
