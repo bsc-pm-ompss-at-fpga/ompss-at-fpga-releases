@@ -280,7 +280,7 @@ WORKDIR /tmp/work
 #X86_64
 RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/x86_64/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=$(test $(arch) != x86_64 && echo x86_64-linux-gnu) PLATFORM=qdma \
     EXTRAE_HOME=$INSTALLATION_PREFIX/x86_64/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-x86_64 \
-    xdma-install xtasks-install nanox-install mcxx-install
+    all
 RUN  make mrproper
 
 #ARM64
@@ -293,7 +293,7 @@ RUN make mrproper
 #Assuming no one will compile from an arm32 platform => always setting TARGET
 RUN make -j PREFIX_TARGET=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG} PREFIX_HOST=$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG} TARGET=arm-linux-gnueabihf \
     EXTRAE_HOME=$INSTALLATION_PREFIX/arm32/ompss/${RELEASE_TAG}/extrae MCXX_NAME=mcxx-arm32 \
-    xdma-install xtasks-install nanox-install mcxx-install
+    all
 RUN  make mrproper
 
 
