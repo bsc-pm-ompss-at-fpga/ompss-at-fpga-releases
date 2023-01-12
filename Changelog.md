@@ -1,3 +1,40 @@
+# Release 4.0.0-rc1
+2023-01-11
+
+* ait
+  * Bump version to 6.4.1
+    * Versioning now follows SemVer specification
+  * Unified hardware runtimes into Picos OmpSs Manager (POM) v6.0
+    * Supports all the features previously supported by Fast OmpSs Manager (FOM) and Smart OmpSs Manager (SOM)
+    * Automatically detect required hwruntime features and enable them accordingly
+    * Deprecated `--hwruntime` argument
+  * Added `--interconnect_priorities` argument to enable priorities on memory interconnects
+  * Added support for OmpSs@FPGA accelerator wrapper v13, which depends on the `new_task_spawner` IP
+  * Added support for Vitis HLS
+  * Internal refactor to follow Python packages structure in order to distribute AIT through PyPI
+  * Several bug fixes and improvements
+* mcxx
+  * Implemented support for accelerator wrapper v13
+  * Fixed `lock` field of AIT json to mark which accelerators use locking features
+  * Added `needs_deps` field in AIT json to mark which accelerators have data dependencies
+* nanox
+  * Fixed configuration and installation on newer linux versions
+  * Use xtasks multidevice API
+  * Adapted data structures to accelerator wrapper v13
+* xtasks
+  * Bump version to 14.3
+  * Added support for multiple FPGAs
+  * Flipped `managed_reset` polarity
+  * Fixed buffer overflow bugs
+* xdma
+  * Bump version to 4.2
+  * Added support for multiple FPGAs
+  * Renamed `euroexa_testbed2` backend to `euroexa_maxilink`
+  * Split large copies into smaller chunks on `qdma` backend to avoid a kernel out-of-memory error
+* Picos OmpSs Manager (POM)
+  * Bump version to 6.0
+  * Take into account current task in execution when optimizing data copies
+
 ### Release 3.3.1
 2022-05-27
 
