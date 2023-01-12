@@ -28,6 +28,7 @@ RUN  apt update && apt install -y autoconf \
         pkg-config \
         python \
         python3 \
+        python3-pip \
         sudo \
         vim \
         wget \
