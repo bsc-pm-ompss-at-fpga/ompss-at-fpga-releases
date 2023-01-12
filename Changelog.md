@@ -1,5 +1,5 @@
-# Release 4.0.0-rc1
-2023-01-11
+# Release 4.0.0-rc2
+2023-01-12
 
 * ait
   * Bump version to 6.4.1
