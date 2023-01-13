@@ -62,6 +62,8 @@ RUN  apt update && apt install -y autoconf \
 # Extra tools
 	openssh-client
 
+RUN python3 -m pip install setuptools --upgrade
+
 # Install and configure tzdata
 RUN export DEBIAN_FRONTEND=noninteractive; \
     export DEBCONF_NONINTERACTIVE_SEEN=true; \
