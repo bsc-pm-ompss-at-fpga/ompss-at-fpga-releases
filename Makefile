@@ -112,8 +112,8 @@ mcxx-install: mcxx-build
 
 ait-install:
 	export DEB_PYTHON_INSTALL_LAYOUT=deb_system; \
-	rm -rf $(PREFIX_HOST)/ait \
-	python3 -m pip install ./ait -t $(PREFIX_HOST)
+	rm -rf $(PREFIX_HOST)/ait; \
+	python3.7 -m pip install ./ait -t $(PREFIX_HOST)
 
 .PHONY: environment_ompss_fpga.sh envscript-install
 
