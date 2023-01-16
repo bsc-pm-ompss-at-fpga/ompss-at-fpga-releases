@@ -27,7 +27,7 @@ RUN  apt update && apt install -y autoconf \
         libxml2-dev \
         pkg-config \
         python \
-        python3 \
+        python3.7 \
         python3-pip \
         sudo \
         vim \
@@ -62,7 +62,7 @@ RUN  apt update && apt install -y autoconf \
 # Extra tools
 	openssh-client
 
-RUN python3 -m pip install setuptools --upgrade
+RUN python3.7 -m pip install setuptools --upgrade
 
 # Install and configure tzdata
 RUN export DEBIAN_FRONTEND=noninteractive; \
