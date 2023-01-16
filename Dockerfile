@@ -62,6 +62,8 @@ RUN  apt update && apt install -y autoconf \
 # Extra tools
 	openssh-client
 
+RUN python3.7 -m pip install pip --upgrade
+RUN python3.7 -m pip install wheel --upgrade
 RUN python3.7 -m pip install setuptools --upgrade
 
 # Install and configure tzdata
