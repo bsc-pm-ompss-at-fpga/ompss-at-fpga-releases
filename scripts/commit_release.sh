@@ -16,7 +16,7 @@ pushd `dirname ${BASH_SOURCE[0]}`/../ >/dev/null
   fi
 
   #Set user-guide URL
-  sed -i "s/\(user-guide-\)\([0-9]\|[.]\)*\(-rc[0-9]\?\)\?/\1${VERSION}/" README.md
+  sed -i "s/\(user-guide-\)\([0-9]\|[.]\)*\(-rc[0-9]*\)\?/\1${VERSION}/" README.md
 
   #Enable the cache mode for credentials in metarepository and every submodule
   git config credential.helper cache

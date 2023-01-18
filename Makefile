@@ -113,14 +113,14 @@ mcxx-install: mcxx-build
 ait-install:
 	export DEB_PYTHON_INSTALL_LAYOUT=deb_system; \
 	rm -rf $(PREFIX_HOST)/ait; \
-	python3.7 -m pip install ./ait -t $(PREFIX_HOST)
+	python3.7 -m pip install ./ait -t $(PREFIX_HOST)/ait
 
 .PHONY: environment_ompss_fpga.sh envscript-install
 
 environment_ompss_fpga.sh:
 	@echo "#!/bin/bash" >environment_ompss_fpga.sh
 	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/'$(MCXX_NAME)'/bin' >>environment_ompss_fpga.sh
-	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/ait' >>environment_ompss_fpga.sh
+	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/ait/bin' >>environment_ompss_fpga.sh
 
 envscript-install: environment_ompss_fpga.sh
 	cp -v $^ $(PREFIX_HOST)/$(ENVSCRIPT_NAME)
