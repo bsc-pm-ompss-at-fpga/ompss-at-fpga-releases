@@ -121,6 +121,7 @@ environment_ompss_fpga.sh:
 	@echo "#!/bin/bash" >environment_ompss_fpga.sh
 	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/'$(MCXX_NAME)'/bin' >>environment_ompss_fpga.sh
 	@echo 'export PATH=$$PATH:'$(PREFIX_HOST)'/ait/bin' >>environment_ompss_fpga.sh
+	@echo 'export PYTHONPATH='$(PREFIX_HOST)'/ait' >>environment_ompss_fpga.sh
 
 envscript-install: environment_ompss_fpga.sh
 	cp -v $^ $(PREFIX_HOST)/$(ENVSCRIPT_NAME)
