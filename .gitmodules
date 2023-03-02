@@ -10,13 +10,13 @@
 [submodule "mcxx"]
 	path = mcxx
 	url = ../mcxx.git
+[submodule "ait"]
+	path = ait
+	url = ../ait.git
+	branch = master
 [submodule "extrae"]
 	path = extrae
 	url = ../extrae.git
 [submodule "ompss-at-fpga-kernel-module"]
 	path = ompss-at-fpga-kernel-module
 	url = ../ompss-at-fpga-kernel-module.git
-[submodule "ait"]
-	path = ait
-	url = ../ait.git
-    branch = master-public
