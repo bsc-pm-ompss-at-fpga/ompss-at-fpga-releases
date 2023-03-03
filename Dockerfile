@@ -332,8 +332,8 @@ ADD ./dockerImageFiles/welcome_ompss_fpga.txt $INSTALLATION_PREFIX
 WORKDIR /home/ompss/
 USER ompss
 ADD --chown=ompss:ompss ./dockerImageFiles/example ./example/
-RUN ln -s $INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/nanox/share/doc/nanox/paraver_configs/ompss ./example/paraver_configs \
- && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/wxparaver/bin" >>.bashrc \
+#RUN ln -s $INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/nanox/share/doc/nanox/paraver_configs/ompss ./example/paraver_configs \
+RUN echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/wxparaver/bin" >>.bashrc \
  && echo "cat $INSTALLATION_PREFIX/welcome_ompss_fpga.txt" >>.bashrc \
  && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/mcxx-arm64/bin" >>.bashrc \
  && echo "export PATH=\$PATH:$INSTALLATION_PREFIX/$(arch | sed 's/aarch64/arm64/g' | sed 's/armhf/arm32/g')/ompss/${RELEASE_TAG}/mcxx-arm32/bin" >>.bashrc \
